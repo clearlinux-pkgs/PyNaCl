@@ -6,20 +6,20 @@
 #
 Name     : PyNaCl
 Version  : 1.3.0
-Release  : 2
+Release  : 3
 URL      : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz
 Source99 : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz.asc
 Summary  : Python binding to the Networking and Cryptography (NaCl) library
 Group    : Development/Tools
 License  : Apache-2.0 ISC
-Requires: PyNaCl-python3
-Requires: PyNaCl-license
-Requires: PyNaCl-python
+Requires: PyNaCl-license = %{version}-%{release}
+Requires: PyNaCl-python = %{version}-%{release}
+Requires: PyNaCl-python3 = %{version}-%{release}
 Requires: cffi
-Requires: hypothesis
 Requires: six
 BuildRequires : buildreq-distutils3
+BuildRequires : llvm
 BuildRequires : llvm-dev
 BuildRequires : pluggy
 BuildRequires : py-python
@@ -67,14 +67,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1538141161
+export SOURCE_DATE_EPOCH=1545416886
+export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/PyNaCl
-cp LICENSE %{buildroot}/usr/share/doc/PyNaCl/LICENSE
-cp src/libsodium/LICENSE %{buildroot}/usr/share/doc/PyNaCl/src_libsodium_LICENSE
+mkdir -p %{buildroot}/usr/share/package-licenses/PyNaCl
+cp LICENSE %{buildroot}/usr/share/package-licenses/PyNaCl/LICENSE
+cp src/libsodium/LICENSE %{buildroot}/usr/share/package-licenses/PyNaCl/src_libsodium_LICENSE
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -85,8 +86,8 @@ echo ----[ mark ]----
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/doc/PyNaCl/LICENSE
-/usr/share/doc/PyNaCl/src_libsodium_LICENSE
+/usr/share/package-licenses/PyNaCl/LICENSE
+/usr/share/package-licenses/PyNaCl/src_libsodium_LICENSE
 
 %files python
 %defattr(-,root,root,-)
