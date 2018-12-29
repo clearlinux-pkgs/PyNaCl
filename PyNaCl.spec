@@ -6,7 +6,7 @@
 #
 Name     : PyNaCl
 Version  : 1.3.0
-Release  : 15
+Release  : 16
 URL      : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz
 Source99 : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz.asc
@@ -19,6 +19,7 @@ Requires: PyNaCl-python3 = %{version}-%{release}
 Requires: cffi
 Requires: six
 BuildRequires : buildreq-distutils3
+BuildRequires : cffi
 BuildRequires : llvm
 BuildRequires : llvm-dev
 BuildRequires : pluggy
@@ -67,7 +68,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1545416886
+export SOURCE_DATE_EPOCH=1546125504
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
 
