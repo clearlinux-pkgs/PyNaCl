@@ -6,10 +6,10 @@
 #
 Name     : PyNaCl
 Version  : 1.3.0
-Release  : 21
+Release  : 22
 URL      : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz
-Source99 : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz.asc
+Source1  : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz.asc
 Summary  : Python binding to the Networking and Cryptography (NaCl) library
 Group    : Development/Tools
 License  : Apache-2.0 ISC
@@ -25,13 +25,14 @@ BuildRequires : llvm-dev
 BuildRequires : pluggy
 BuildRequires : py-python
 BuildRequires : pytest
+BuildRequires : six
 BuildRequires : tox
 BuildRequires : virtualenv
 
 %description
-===============================================
-PyNaCl: Python binding to the libsodium library
-===============================================
+[![Build Status](https://travis-ci.org/jedisct1/libsodium.svg?branch=master)](https://travis-ci.org/jedisct1/libsodium?branch=master)
+[![Windows build status](https://ci.appveyor.com/api/projects/status/fu8s2elx25il98hj?svg=true)](https://ci.appveyor.com/project/jedisct1/libsodium)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/2397/badge.svg)](https://scan.coverity.com/projects/2397)
 
 %package license
 Summary: license components for the PyNaCl package.
@@ -55,6 +56,7 @@ python components for the PyNaCl package.
 Summary: python3 components for the PyNaCl package.
 Group: Default
 Requires: python3-core
+Provides: pypi(PyNaCl)
 
 %description python3
 python3 components for the PyNaCl package.
@@ -62,21 +64,29 @@ python3 components for the PyNaCl package.
 
 %prep
 %setup -q -n PyNaCl-1.3.0
+cd %{_builddir}/PyNaCl-1.3.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1546125504
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1583208038
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
 
 %install
+export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/PyNaCl
-cp LICENSE %{buildroot}/usr/share/package-licenses/PyNaCl/LICENSE
-cp src/libsodium/LICENSE %{buildroot}/usr/share/package-licenses/PyNaCl/src_libsodium_LICENSE
+cp %{_builddir}/PyNaCl-1.3.0/LICENSE %{buildroot}/usr/share/package-licenses/PyNaCl/43a3a49bd7af636c923a5ae475395b8e29320529
+cp %{_builddir}/PyNaCl-1.3.0/src/libsodium/LICENSE %{buildroot}/usr/share/package-licenses/PyNaCl/622898f01fc66990f6a823b311124ed0467ef445
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -87,8 +97,8 @@ echo ----[ mark ]----
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/PyNaCl/LICENSE
-/usr/share/package-licenses/PyNaCl/src_libsodium_LICENSE
+/usr/share/package-licenses/PyNaCl/43a3a49bd7af636c923a5ae475395b8e29320529
+/usr/share/package-licenses/PyNaCl/622898f01fc66990f6a823b311124ed0467ef445
 
 %files python
 %defattr(-,root,root,-)
