@@ -6,7 +6,7 @@
 #
 Name     : PyNaCl
 Version  : 1.3.0
-Release  : 22
+Release  : 23
 URL      : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz
 Source1  : https://files.pythonhosted.org/packages/61/ab/2ac6dea8489fa713e2b4c6c5b549cc962dd4a842b5998d9e80cf8440b7cd/PyNaCl-1.3.0.tar.gz.asc
@@ -30,9 +30,9 @@ BuildRequires : tox
 BuildRequires : virtualenv
 
 %description
-[![Build Status](https://travis-ci.org/jedisct1/libsodium.svg?branch=master)](https://travis-ci.org/jedisct1/libsodium?branch=master)
-[![Windows build status](https://ci.appveyor.com/api/projects/status/fu8s2elx25il98hj?svg=true)](https://ci.appveyor.com/project/jedisct1/libsodium)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/2397/badge.svg)](https://scan.coverity.com/projects/2397)
+===============================================
+PyNaCl: Python binding to the libsodium library
+===============================================
 
 %package license
 Summary: license components for the PyNaCl package.
@@ -56,7 +56,9 @@ python components for the PyNaCl package.
 Summary: python3 components for the PyNaCl package.
 Group: Default
 Requires: python3-core
-Provides: pypi(PyNaCl)
+Provides: pypi(pynacl)
+Requires: pypi(cffi)
+Requires: pypi(six)
 
 %description python3
 python3 components for the PyNaCl package.
@@ -71,8 +73,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1583208038
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1583520899
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
